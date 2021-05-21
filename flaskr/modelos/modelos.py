@@ -21,8 +21,10 @@ class Album(db.Model):
     anio = db.Column(db.Integer)
     descripcion = db.Column(db.String(512))
     medio = db.Column(db.Enum(Medio))
+    usuario = db.Column(db.Integer, db.ForeignKey("usuario.id"))
 
 class Usuario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(50))
     contrasena = db.Column(db.String(50))
+    albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
