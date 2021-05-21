@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 import enum
 
 db = SQLAlchemy()
@@ -35,3 +36,8 @@ class Usuario(db.Model):
     contrasena = db.Column(db.String(50))
     albumes = db.relationship('Album', cascade='all, delete, delete-orphan')
 
+class CancionSchema(SQLAlchemyAutoSchema):
+    class Meta:
+         model = Cancion
+         include_relationships = True
+         load_instance = True
