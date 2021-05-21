@@ -139,3 +139,6 @@ cython_debug/
 
 #VSC Settings
 .vscode
+
+#DataBase
+test.db
