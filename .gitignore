@@ -140,5 +140,8 @@ cython_debug/
 #VSC Settings
 .vscode
 
+#DataBase
+test.db
+
 #Node
 node_modules/
