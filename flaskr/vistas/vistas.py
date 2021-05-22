@@ -13,3 +13,6 @@ class VistaCanciones(Resource):
         db.session.add(nueva_cancion)
         db.session.commit()
         return cancion_schema.dump(nueva_cancion)
+
+    def get(self):
+        return [cancion_schema.dump(ca) for ca in Cancion.query.all()]
