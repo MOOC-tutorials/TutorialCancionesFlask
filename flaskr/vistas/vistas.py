@@ -18,6 +18,16 @@ class VistaCanciones(Resource):
         return [cancion_schema.dump(ca) for ca in Cancion.query.all()]
 
 class VistaCancion(Resource):
-    
+
     def get(self, id_cancion):
         return cancion_schema.dump(Cancion.query.get_or_404(id_cancion))
+
+    def put(self, id_cancion):
+        cancion = Cancion.query.get_or_404(id_cancion)
+        cancion.titulo = request.json.get("titulo",cancion.titulo)
+        cancion.minutos = request.json.get("minutos",cancion.minutos)
+        cancion.segundos = request.json.get("segundos",cancion.segundos)
+        cancion.interprete = request.json.get("interprete",cancion.interprete)
+        db.session.commit()
+        return cancion_schema.dump(cancion)
+
