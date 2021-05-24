@@ -5,5 +5,7 @@ greenlet==1.1.0
 itsdangerous==2.0.1
 Jinja2==3.0.1
 MarkupSafe==2.0.1
+marshmallow==3.12.1
+marshmallow-sqlalchemy==0.25.0
 SQLAlchemy==1.4.15
 Werkzeug==2.0.1
