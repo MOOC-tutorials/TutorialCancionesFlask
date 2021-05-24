@@ -1,9 +1,11 @@
 from flask import request
-from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema
+from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema
 from flask_restful import Resource
+from sqlalchemy.exc import IntegrityError
 
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
+album_schema = AlbumSchema()
 
 
 class VistaCanciones(Resource):
@@ -55,3 +57,43 @@ class VistaSignIn(Resource):
         db.session.delete(usuario)
         db.session.commit()
         return '',204
+
+class VistaAlbumsUsuario(Resource):
+
+    def post(self, id_usuario):
+        nuevo_album = Album(titulo=request.json["titulo"], anio=request.json["anio"], descripcion=request.json["descripcion"], medio=request.json["medio"])
+        usuario = Usuario.query.get_or_404(id_usuario)
+        usuario.albumes.append(nuevo_album)
+
+        try:
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            return 'El usuario ya tiene un album con dicho nombre',409
+
+        return album_schema.dump(nuevo_album)
+
+    def get(self, id_usuario):
+        usuario = Usuario.query.get_or_404(id_usuario)
+        return [album_schema.dump(al) for al in usuario.albumes]
+
+class VistaAlbumUsuario(Resource):
+
+    def get(self, id_album):
+        return album_schema.dump(Album.query.get_or_404(id_album))
+
+    def put(self, id_album):
+        album = Album.query.get_or_404(id_album)
+        album.titulo = request.json.get("titulo",album.titulo)
+        album.anio = request.json.get("anio", album.anio)
+        album.descripcion = request.json.get("descripcion", album.descripcion)
+        album.medio = request.json.get("medio", album.medio)
+        db.session.commit()
+        return album_schema.dump(album)
+
+    def delete(self, id_album):
+        album = Album.query.get_or_404(id_album)
+        db.session.delete(album)
+        db.session.commit()
+        return '',204
+
