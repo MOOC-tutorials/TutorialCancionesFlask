@@ -43,3 +43,9 @@ class VistaSignIn(Resource):
         nuevo_usuario = Usuario(nombre=request.json["nombre"], contrasena=request.json["contrasena"])
         db.session.add(nuevo_usuario)
         db.session.commit()
+
+    def put(self, id_usuario):
+        usuario = Usuario.query.get_or_404(id_usuario)
+        usuario.contrasena = request.json.get("contrasena",usuario.contrasena)
+        db.session.commit()
+        return usuario_schema.dump(usuario)
