@@ -45,6 +45,8 @@ class VistaSignIn(Resource):
         nuevo_usuario = Usuario(nombre=request.json["nombre"], contrasena=request.json["contrasena"])
         db.session.add(nuevo_usuario)
         db.session.commit()
+        return 'Usuario creado exitosamente', 201
+
 
     def put(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
@@ -81,8 +83,18 @@ class VistaCancionesAlbum(Resource):
 
     def post(self, id_album):
         album = Album.query.get_or_404(id_album)
-        nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"])
-        album.canciones.append(nueva_cancion)
+        
+        if "id_cancion" in request.json.keys():
+            
+            nueva_cancion = Cancion.query.get(request.json["id_cancion"])
+            if nueva_cancion is not None:
+                album.canciones.append(nueva_cancion)
+                db.session.commit()
+            else:
+                return 'Canción errónea',404
+        else: 
+            nueva_cancion = Cancion(titulo=request.json["titulo"], minutos=request.json["minutos"], segundos=request.json["segundos"], interprete=request.json["interprete"])
+            album.canciones.append(nueva_cancion)
         db.session.commit()
         return cancion_schema.dump(nueva_cancion)
        
@@ -90,7 +102,7 @@ class VistaCancionesAlbum(Resource):
         album = Album.query.get_or_404(id_album)
         return [cancion_schema.dump(ca) for ca in album.canciones]
 
-class VistaAlbumUsuario(Resource):
+class VistaAlbum(Resource):
 
     def get(self, id_album):
         return album_schema.dump(Album.query.get_or_404(id_album))
