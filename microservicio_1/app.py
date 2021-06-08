@@ -3,12 +3,18 @@ from flask_restful import Resource, Api
 from flask import Flask, request
 import requests
 import json
+from celery import Celery
 
 app = create_app('default')
+celery = Celery(__name__, broker='redis://localhost:6379/0')
 app_context = app.app_context()
 app_context.push()
 api = Api(app)
 api.init_app(app)
+
+@celery.task(name="tabla.registrar")
+def registrar_puntaje(cancion_json):
+    pass
 
 class VistaPuntuacion(Resource):
 
@@ -17,7 +23,8 @@ class VistaPuntuacion(Resource):
         print(content)
         cancion = content.json()
         cancion["puntaje"] = request.json["puntaje"]
-        print(json.dumps(cancion))
+        args = (cancion,)
+        registrar_puntaje.apply_async(args, queue='tabla', serializer='json')
         return json.dumps(cancion)
 
 api.add_resource(VistaPuntuacion, '/cancion/<int:id_cancion>/puntuar')
