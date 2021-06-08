@@ -2,6 +2,7 @@ from flask import request
 from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
+from flask_jwt_extended import jwt_required, create_access_token, get_jwt_identity
 
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
@@ -43,9 +44,10 @@ class VistaSignIn(Resource):
     
     def post(self):
         nuevo_usuario = Usuario(nombre=request.json["nombre"], contrasena=request.json["contrasena"])
+        token_de_acceso = create_access_token(identity = request.json["nombre"])
         db.session.add(nuevo_usuario)
         db.session.commit()
-        return 'Usuario creado exitosamente', 201
+        return {"mensaje":"usuario creado exitosamente", "token de acceso":token_de_acceso}
 
 
     def put(self, id_usuario):
@@ -62,6 +64,7 @@ class VistaSignIn(Resource):
 
 class VistaAlbumsUsuario(Resource):
 
+    @jwt_required()
     def post(self, id_usuario):
         nuevo_album = Album(titulo=request.json["titulo"], anio=request.json["anio"], descripcion=request.json["descripcion"], medio=request.json["medio"])
         usuario = Usuario.query.get_or_404(id_usuario)
@@ -75,6 +78,7 @@ class VistaAlbumsUsuario(Resource):
 
         return album_schema.dump(nuevo_album)
 
+    @jwt_required()
     def get(self, id_usuario):
         usuario = Usuario.query.get_or_404(id_usuario)
         return [album_schema.dump(al) for al in usuario.albumes]
