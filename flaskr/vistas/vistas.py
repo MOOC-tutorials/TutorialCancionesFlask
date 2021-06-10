@@ -2,11 +2,12 @@ from flask import request
 from ..modelos import db, Cancion, CancionSchema, Usuario, UsuarioSchema, Album, AlbumSchema
 from flask_restful import Resource
 from sqlalchemy.exc import IntegrityError
+from datetime import datetime
+from ..tareas import registrar_log 
 
 cancion_schema = CancionSchema()
 usuario_schema = UsuarioSchema()
 album_schema = AlbumSchema()
-
 
 class VistaCanciones(Resource):
 
@@ -40,11 +41,13 @@ class VistaCancion(Resource):
         return '',204
 
 class VistaLogIn(Resource):
+
     def post(self):
             u_nombre = request.json["nombre"]
             u_contrasena = request.json["contrasena"]
             usuario = Usuario.query.filter_by(nombre=u_nombre, contrasena = u_contrasena).all()
             if usuario:
+                registrar_log.delay(u_nombre, datetime.utcnow())
                 return {'mensaje':'Inicio de sesión exitoso'}, 200
             else:
                 return {'mensaje':'Nombre de usuario o contraseña incorrectos'}, 401
