@@ -20,11 +20,15 @@ class VistaPuntuacion(Resource):
 
     def post(self, id_cancion):
         content = requests.get('http://127.0.0.1:5000/cancion/{}'.format(id_cancion))
-        print(content)
-        cancion = content.json()
-        cancion["puntaje"] = request.json["puntaje"]
-        args = (cancion,)
-        registrar_puntaje.apply_async(args, queue='tabla', serializer='json')
-        return json.dumps(cancion)
+        
+        
+        if content.status_code == 404:
+            return content.json(),404
+        else:
+            cancion = content.json()
+            cancion["puntaje"] = request.json["puntaje"]
+            args = (cancion,)
+            registrar_puntaje.apply_async(args)
+            return json.dumps(cancion)
 
 api.add_resource(VistaPuntuacion, '/cancion/<int:id_cancion>/puntuar')
