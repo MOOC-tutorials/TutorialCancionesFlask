@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../usuario';
 import { UsuarioService } from '../usuario.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-usuario-login',
@@ -9,7 +10,10 @@ import { UsuarioService } from '../usuario.service';
 })
 export class UsuarioLoginComponent implements OnInit {
 
-  constructor(private usuarioService: UsuarioService) { }
+  constructor(
+    private usuarioService: UsuarioService,
+    private router: Router
+    ) { }
   
   error: boolean = false
   login: boolean = false
@@ -26,6 +30,7 @@ export class UsuarioLoginComponent implements OnInit {
       localStorage.setItem("token", res.token)
       this.login = true
       let user = new Usuario(res.usuario.id, res.usuario.nombre, res.usuario.albumes)
+      this.router.navigate(['/albumes'])
     },
     error => {
       console.log(error.error)
