@@ -62,6 +62,17 @@ class VistaSignIn(Resource):
         db.session.commit()
         return '',204
 
+class VistaLogIn(Resource):
+
+    def post(self):
+        usuario = Usuario.query.filter(Usuario.nombre == request.json["nombre"], Usuario.contrasena == request.json["contrasena"]).first()
+        db.session.commit()
+        if usuario is None:
+            return "El usuario no existe", 404
+        else:
+            token_de_acceso = create_access_token(identity = usuario.nombre)
+            return {"mensaje":"Acceso consedido", "usuario": {"nombre":usuario.nombre, "id": usuario.id, "albumes": usuario.albumes}, "token": token_de_acceso}
+
 class VistaAlbumsUsuario(Resource):
 
     @jwt_required()
