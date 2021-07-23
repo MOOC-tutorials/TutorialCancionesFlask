@@ -71,7 +71,7 @@ class VistaLogIn(Resource):
             return "El usuario no existe", 404
         else:
             token_de_acceso = create_access_token(identity = usuario.nombre)
-            return {"mensaje":"Acceso consedido", "usuario": {"nombre":usuario.nombre, "id": usuario.id, "albumes": usuario.albumes}, "token": token_de_acceso}
+            return {"mensaje":"Acceso consedido", "usuario": {"nombre":usuario.nombre, "id": usuario.id}, "token": token_de_acceso}
 
 class VistaAlbumsUsuario(Resource):
 

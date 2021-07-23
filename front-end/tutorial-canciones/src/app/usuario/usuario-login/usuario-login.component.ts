@@ -16,7 +16,6 @@ export class UsuarioLoginComponent implements OnInit {
     ) { }
   
   error: boolean = false
-  login: boolean = false
 
   ngOnInit() {
   }
@@ -26,14 +25,9 @@ export class UsuarioLoginComponent implements OnInit {
     
     this.usuarioService.userLogIn(nombre, contrasena)
     .subscribe(res => {
-
-      localStorage.setItem("token", res.token)
-      this.login = true
-      let user = new Usuario(res.usuario.id, res.usuario.nombre, res.usuario.albumes)
-      this.router.navigate(['/albumes'])
+      this.router.navigate([`/albumes/${res.usuario.id}/${res.token}`])
     },
     error => {
-      console.log(error.error)
       this.error=true
     })
   }
