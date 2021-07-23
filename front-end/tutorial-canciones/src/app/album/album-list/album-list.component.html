@@ -7,16 +7,19 @@
         </div>
         <div class="card-body">
 
-          <table class="table table-hover" aria-describedby="colecName">
+          <table class="table table-hover mb-0" aria-describedby="colecName">
             <tbody>
                 <tr *ngFor="let album of albumes" >
-                  <td >{{album.titulo}} - {{album.anio}}</td>
+                  <td (click)="onSelect(album)">{{album.titulo}} - {{album.anio}}</td>
                 </tr>
             </tbody>
           </table>
           
         </div>
       </div>
+    </div>
+    <div class="col-8">
+      <app-album-detail [album]="albumSeleccionado"></app-album-detail>
     </div>
   </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
-import { Album } from '../album';
+import { Album, Cancion } from '../album';
 import { AlbumService } from '../album.service';
 
 @Component({
@@ -15,40 +15,66 @@ export class AlbumListComponent implements OnInit {
     private albumService: AlbumService,
     private router: ActivatedRoute,
     private toastr: ToastrService
-    ) { }
-
+  ) { }
+  
+  userId: number = 0
+  token: string = ""
   albumes: Array<Album> = [];
+  albumSeleccionado: Album = new Album(0, "Titulo del album", 0, "Descripción del album", {"llave": "DISCO", "valor": 1}, 0,[], []);
 
   ngOnInit() {
-    this.getAlbumes();
-  }
-
-  getAlbumes():void{
-    const userId = parseInt(this.router.snapshot.params.userId)
-    const token = this.router.snapshot.params.userToken
-    console.log(userId, token)
-    if(!userId){
+    if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
       this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
     }
     else{
-      this.albumService.getAlbumes(userId, token)
-      .subscribe(albumes => {
-        this.albumes = albumes
-        console.log(albumes)
-      },
-      error => {
-        if(error.statusText === "UNAUTHORIZED"){
-          this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
-        }
-        else if(error.statusText === "UNPROCESSABLE ENTITY"){
-          this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
-        }
-        else{
-          this.showError("Ha ocurrido un error. " + error.message)
-        }
-        console.log(error)
-      })
+      this.userId = parseInt(this.router.snapshot.params.userId)
+      this.token = this.router.snapshot.params.userToken
+      this.getAlbumes();
     }
+  }
+
+  getAlbumes():void{
+    this.albumService.getAlbumes(this.userId, this.token)
+    .subscribe(albumes => {
+      this.albumes = albumes
+      if(albumes.length>0){
+        this.onSelect(albumes[0])
+      }
+    },
+    error => {
+      if(error.statusText === "UNAUTHORIZED"){
+        this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+      }
+      else if(error.statusText === "UNPROCESSABLE ENTITY"){
+        this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      }
+      else{
+        this.showError("Ha ocurrido un error. " + error.message)
+      }
+    })
+    
+  }
+
+  onSelect(a: Album){
+    this.albumSeleccionado = a
+    this.albumService.getCancionesAlbum(a.id, this.token)
+    .subscribe(canciones => {
+      this.albumSeleccionado.canciones = canciones
+      this.albumSeleccionado.interpretes = this.getInterpretes(canciones)
+    },
+    error =>{
+      this.showError("Ha ocurrido un error, " + error.message)
+    })
+  }
+
+  getInterpretes(canciones: Array<Cancion>): Array<string>{
+    var interpretes: Array<string> = []
+    canciones.map( c => {
+      if(!interpretes.includes(c.interprete)){
+        interpretes.push(c.interprete)
+      }
+    })
+    return interpretes
   }
 
   showError(error: string){
