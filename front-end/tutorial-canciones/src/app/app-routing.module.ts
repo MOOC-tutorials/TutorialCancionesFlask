@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UsuarioLoginComponent } from './usuario/usuario-login/usuario-login.component';
 import { AlbumListComponent } from './album/album-list/album-list.component';
 import { AlbumCreateComponent } from './album/album-create/album-create.component';
+import { AlbumEditComponent } from './album/album-edit/album-edit.component';
 
 const routes: Routes = [
   {
@@ -19,7 +20,11 @@ const routes: Routes = [
     component: AlbumCreateComponent
   },
   {
-    path: 'canciones',
+    path: 'albumes/edit/:albumId/:userId/:userToken',
+    component: AlbumEditComponent
+  },
+  {
+    path: 'canciones/:userId/:userToken',
     component: UsuarioLoginComponent
   }
 ];
