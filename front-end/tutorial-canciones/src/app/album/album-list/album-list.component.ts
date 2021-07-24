@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from "ngx-toastr";
 import { Album, Cancion } from '../album';
 import { AlbumService } from '../album.service';
@@ -14,7 +14,8 @@ export class AlbumListComponent implements OnInit {
   constructor(
     private albumService: AlbumService,
     private router: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private routerPath: Router
   ) { }
   
   userId: number = 0
@@ -77,6 +78,11 @@ export class AlbumListComponent implements OnInit {
     return interpretes
   }
 
+  irCrearAlbum(){
+    console.log("Va")
+    this.routerPath.navigate([`/albumes/create/${this.userId}/${this.token}`])
+  }
+
   showError(error: string){
     this.toastr.error(error, "Error de autenticación")
   }
@@ -84,5 +90,4 @@ export class AlbumListComponent implements OnInit {
   showWarning(warning: string){
     this.toastr.warning(warning, "Error de autenticación")
   }
-
 }
