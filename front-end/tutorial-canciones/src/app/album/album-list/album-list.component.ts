@@ -79,8 +79,11 @@ export class AlbumListComponent implements OnInit {
   }
 
   irCrearAlbum(){
-    console.log("Va")
     this.routerPath.navigate([`/albumes/create/${this.userId}/${this.token}`])
+  }
+
+  eliminarAlbum(){
+    this.ngOnInit()
   }
 
   showError(error: string){

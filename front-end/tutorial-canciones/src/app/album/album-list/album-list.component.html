@@ -26,7 +26,7 @@
       </div>
     </div>
     <div class="col-8">
-      <app-album-detail [album]="albumSeleccionado"></app-album-detail>
+      <app-album-detail (deleteAlbum)="eliminarAlbum()" [album]="albumSeleccionado"></app-album-detail>
     </div>
   </div>
 </div>

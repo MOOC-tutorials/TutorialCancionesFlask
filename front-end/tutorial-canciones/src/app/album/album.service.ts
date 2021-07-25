@@ -44,4 +44,11 @@ export class AlbumService {
     return this.http.put<Album>(`${this.backUrl}/album/${albumId}`, album, {headers: headers})
   }
 
+  eliminarAlbum(idUsuario: number, token: string, albumId: number): Observable<Album>{
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`       
+    })
+    return this.http.delete<Album>(`${this.backUrl}/album/${albumId}`, {headers: headers})
+  }
+
 }
