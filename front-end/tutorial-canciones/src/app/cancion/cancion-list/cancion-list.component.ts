@@ -64,12 +64,27 @@ export class CancionListComponent implements OnInit {
 
   }
 
+  eliminarCancion(){
+    this.cancionService.eliminarCancion(this.cancionSeleccionada.id)
+    .subscribe(cancion => {
+      this.ngOnInit()
+      this.showSuccess()
+    },
+    error=> {
+      this.showError("Ha ocurrido un error. " + error.message)
+    })
+  }
+
   irCrearCancion(){
     this.routerPath.navigate([`/canciones/create/${this.userId}/${this.token}`])
   }
 
   showError(error: string){
     this.toastr.error(error, "Error de autenticación")
+  }
+
+  showSuccess() {
+    this.toastr.success(`La canción fue eliminada`, "Eliminada exitosamente");
   }
 
 }
