@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Album, Cancion } from './album';
+import { Album} from './album';
+import { Cancion } from '../cancion/cancion';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,10 @@ export class AlbumService {
       'Authorization': `Bearer ${token}`       
     })
     return this.http.delete<Album>(`${this.backUrl}/album/${albumId}`, {headers: headers})
+  }
+
+  asociarCancion(albumId: number, cancionId: number): Observable<Cancion>{
+    return this.http.post<Cancion>(`${this.backUrl}/album/${albumId}/canciones`, {"id_cancion": cancionId})
   }
 
 }
