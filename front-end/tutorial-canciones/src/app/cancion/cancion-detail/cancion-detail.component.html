@@ -1,0 +1,51 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col-12 text-center mb-2" >
+      <label class="fs-4 fw-bold">Canción: {{cancion?.titulo}}</label>
+      <button type="button" class="btn btn-outline-success ms-3 me-2" (click)="goToEdit()"><i class="bi bi-pencil-square"></i></button>
+      <button type="button" class="btn btn-outline-danger me-1" (click)="eliminarCancion()"><i class="bi bi-trash-fill"></i></button>
+    </div>
+  </div>
+
+  <div class="row mt-2">
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <p class="my-0"><span class="fw-bold">Duración: </span> <span class="text-capitalize">{{cancion?.minutos}}:{{cancion?.segundos}}</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="card">
+        <div class="card-body">
+          <p class="my-0"><span class="fw-bold">Intérpretes: </span> <span class="text-capitalize">{{cancion?.interprete}}</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 mt-3 mb-2 ms-2">
+      <h5>Álbumes</h5>
+    </div>
+    <div class="col-12">
+      <table class="table table-hover table-bordered" >
+        <thead class="table-light">
+          <tr>
+            <th scope="col" class="text-center">Título</th>
+            <th scope="col" class="text-center">Año</th>
+            <th scope="col" class="text-center">Medio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let album of cancion?.albumes" >
+            <td >{{album.titulo}}</td>
+            <td class="text-center">{{album.anio}}</td>
+            <td >{{album.medio.llave}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -21,7 +21,7 @@
   
             <table class="table table-hover mb-0" aria-describedby="colecName">
               <tbody>
-                  <tr *ngFor="let cancion of mostrarCanciones" >
+                  <tr *ngFor="let cancion of mostrarCanciones; index as i" (click)="onSelect(cancion, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
                     <td>{{cancion.titulo}}</td>
                     <td>{{cancion.minutos}}:{{cancion.segundos}}</td>
                   </tr>
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="col-8">
-        <p>Aquí va el detalle</p>
+        <app-cancion-detail [cancion]="cancionSeleccionada"></app-cancion-detail>
       </div>
     </div>
   </div>

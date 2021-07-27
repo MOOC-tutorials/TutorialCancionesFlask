@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Cancion } from 'src/app/album/album';
+import { Cancion } from '../cancion';
+import { AlbumService } from 'src/app/album/album.service';
 import { CancionService } from '../cancion.service';
 
 @Component({
@@ -10,7 +11,8 @@ import { CancionService } from '../cancion.service';
 export class CancionListComponent implements OnInit {
 
   constructor(
-    private cancionService: CancionService
+    private cancionService: CancionService,
+    private albumService: AlbumService
   ) { }
 
   userId: number
@@ -29,11 +31,21 @@ export class CancionListComponent implements OnInit {
     .subscribe(canciones => {
       this.canciones = canciones
       this.mostrarCanciones = canciones
+      this.onSelect(this.mostrarCanciones[0], 0)
     })
   }
 
   onSelect(cancion: Cancion, indice: number){
-
+    this.indiceSeleccionado = indice
+    this.cancionSeleccionada = cancion
+    let albumes: Array<any> = []
+    cancion.albumes.map( c => {
+      this.albumService.getAlbum(c)
+      .subscribe(album => {
+        albumes.push(album)
+      })
+    })
+    this.cancionSeleccionada.albumes = albumes
   }
 
   buscarCancion(busqueda: string){

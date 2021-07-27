@@ -98,6 +98,22 @@ export class AlbumListComponent implements OnInit {
   }
 
   eliminarAlbum(){
+    this.albumService.eliminarAlbum(this.userId, this.token, this.albumSeleccionado.id)
+    .subscribe(album => {
+      this.ngOnInit();
+      this.showSuccess();
+    },
+    error=> {
+      if(error.statusText === "UNAUTHORIZED"){
+        this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
+      }
+      else if(error.statusText === "UNPROCESSABLE ENTITY"){
+        this.showError("No hemos podido identificarlo, por favor vuelva a iniciar sesión.")
+      }
+      else{
+        this.showError("Ha ocurrido un error. " + error.message)
+      }
+    })
     this.ngOnInit()
   }
 
@@ -107,5 +123,9 @@ export class AlbumListComponent implements OnInit {
 
   showWarning(warning: string){
     this.toastr.warning(warning, "Error de autenticación")
+  }
+
+  showSuccess() {
+    this.toastr.success(`El album fue eliminado`, "Eliminado exitosamente");
   }
 }
