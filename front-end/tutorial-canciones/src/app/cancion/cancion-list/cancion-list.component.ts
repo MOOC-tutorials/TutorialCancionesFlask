@@ -61,7 +61,13 @@ export class CancionListComponent implements OnInit {
   }
 
   buscarCancion(busqueda: string){
-
+    let cancionesBusqueda: Array<Cancion> = []
+    this.canciones.map( cancion => {
+      if(cancion.titulo.toLocaleLowerCase().includes(busqueda.toLocaleLowerCase())){
+        cancionesBusqueda.push(cancion)
+      }
+    })
+    this.mostrarCanciones = cancionesBusqueda
   }
 
   eliminarCancion(){
