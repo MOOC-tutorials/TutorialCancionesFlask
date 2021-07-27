@@ -13,20 +13,16 @@ export class HeaderComponent implements OnInit {
     private router: ActivatedRoute
     ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {  }
+
+  goTo(menu: string){
     const userId = parseInt(this.router.snapshot.params.userId)
     const token = this.router.snapshot.params.userToken
     console.log(userId, token)
-  }
-
-  goTo(menu: string){
-    this.router.params.subscribe(params=>{
-      console.log(params)
-    })
-    const userId = parseInt(this.router.snapshot.queryParams['userId'])
-    const token = this.router.snapshot.params.userToken
-    console.log(userId, token)
-    if(menu === "album"){
+    if(menu === "logIn"){
+      this.routerPath.navigate([`/`])
+    }
+    else if(menu === "album"){
       this.routerPath.navigate([`/albumes/${userId}/${token}`])
     }
     else{

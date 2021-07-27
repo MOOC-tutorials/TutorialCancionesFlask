@@ -1,3 +1,4 @@
+<app-header></app-header>
 <div class="container my-4">
   <div class="row">
     <div class="col-4">
@@ -14,10 +15,14 @@
         </div>
         <div class="card-body">
 
+          <div class="input-group my-2">
+            <input #busqueda type="search" class="form-control" placeholder="Buscar álbumes" aria-label="Search" (keyup)="buscarAlbum(busqueda.value)">
+          </div>
+
           <table class="table table-hover mb-0" aria-describedby="colecName">
             <tbody>
-                <tr *ngFor="let album of albumes" >
-                  <td (click)="onSelect(album)">{{album.titulo}} - {{album.anio}}</td>
+                <tr *ngFor="let album of mostrarAlbumes; index as i" >
+                  <td (click)="onSelect(album, i)" [ngClass]="{'selected': i === indiceSeleccionado}">{{album.titulo}} - {{album.anio}}</td>
                 </tr>
             </tbody>
           </table>

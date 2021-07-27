@@ -18,10 +18,12 @@ export class AlbumListComponent implements OnInit {
     private routerPath: Router
   ) { }
   
-  userId: number = 0
-  token: string = ""
-  albumes: Array<Album> = [];
-  albumSeleccionado: Album = new Album(0, "Titulo del album", 0, "Descripción del album", {"llave": "DISCO", "valor": 1}, 0,[], []);
+  userId: number
+  token: string
+  albumes: Array<Album>;
+  mostrarAlbumes: Array<Album>
+  albumSeleccionado: Album
+  indiceSeleccionado: number
 
   ngOnInit() {
     if(!parseInt(this.router.snapshot.params.userId) || this.router.snapshot.params.userToken === " "){
@@ -38,8 +40,9 @@ export class AlbumListComponent implements OnInit {
     this.albumService.getAlbumes(this.userId, this.token)
     .subscribe(albumes => {
       this.albumes = albumes
+      this.mostrarAlbumes = albumes
       if(albumes.length>0){
-        this.onSelect(albumes[0])
+        this.onSelect(this.mostrarAlbumes[0], 0)
       }
     },
     error => {
@@ -56,7 +59,8 @@ export class AlbumListComponent implements OnInit {
     
   }
 
-  onSelect(a: Album){
+  onSelect(a: Album, index: number){
+    this.indiceSeleccionado = index
     this.albumSeleccionado = a
     this.albumService.getCancionesAlbum(a.id, this.token)
     .subscribe(canciones => {
@@ -76,6 +80,16 @@ export class AlbumListComponent implements OnInit {
       }
     })
     return interpretes
+  }
+
+  buscarAlbum(busqueda: string){
+    let albumesBusqueda: Array<Album> = []
+    this.albumes.map( albu => {
+      if( albu.titulo.toLocaleLowerCase().includes(busqueda.toLowerCase())){
+        albumesBusqueda.push(albu)
+      }
+    })
+    this.mostrarAlbumes = albumesBusqueda
   }
 
   irCrearAlbum(){

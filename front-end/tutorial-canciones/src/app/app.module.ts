@@ -7,13 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UsuarioModule } from './usuario/usuario.module';
-import { HeaderComponent } from './header/header.component';
 import { AlbumModule } from './album/album.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    HeaderComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,

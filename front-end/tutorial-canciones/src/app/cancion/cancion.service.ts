@@ -8,7 +8,7 @@ import { Cancion } from '../album/album';
 })
 export class CancionService {
 
-  private backUrl: string = "api"
+  private backUrl: string = "http://localhost:5000"
 
   constructor(private http: HttpClient) { }
 
