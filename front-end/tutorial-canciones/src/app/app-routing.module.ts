@@ -4,6 +4,7 @@ import { UsuarioLoginComponent } from './usuario/usuario-login/usuario-login.com
 import { AlbumListComponent } from './album/album-list/album-list.component';
 import { AlbumCreateComponent } from './album/album-create/album-create.component';
 import { AlbumEditComponent } from './album/album-edit/album-edit.component';
+import { CancionListComponent } from './cancion/cancion-list/cancion-list.component';
 
 const routes: Routes = [
   {
@@ -25,7 +26,7 @@ const routes: Routes = [
   },
   {
     path: 'canciones/:userId/:userToken',
-    component: UsuarioLoginComponent
+    component: CancionListComponent
   }
 ];
 

@@ -21,8 +21,9 @@
 
           <table class="table table-hover mb-0" aria-describedby="colecName">
             <tbody>
-                <tr *ngFor="let album of mostrarAlbumes; index as i" >
-                  <td (click)="onSelect(album, i)" [ngClass]="{'selected': i === indiceSeleccionado}">{{album.titulo}} - {{album.anio}}</td>
+                <tr *ngFor="let album of mostrarAlbumes; index as i" (click)="onSelect(album, i)" [ngClass]="{'selected': i === indiceSeleccionado}">
+                  <td >{{album.titulo}}</td>
+                  <td >{{album.anio}}</td>
                 </tr>
             </tbody>
           </table>

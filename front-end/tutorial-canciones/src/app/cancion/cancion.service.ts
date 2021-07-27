@@ -19,4 +19,8 @@ export class CancionService {
     return this.http.get<Cancion[]>(`${this.backUrl}/album/${idAlbum}/canciones`, {headers: headers})
   }
 
+  getCanciones(): Observable<Cancion[]>{
+    return this.http.get<Cancion[]>(`${this.backUrl}/canciones`)
+  }
+
 }

@@ -11,7 +11,7 @@ import { AlbumService } from '../album.service';
 })
 export class AlbumDetailComponent implements OnInit {
 
-  @Input() album: Album = new Album(0, "Titulo del album", 0, "Descripción del album", {"llave": "DISCO", "valor": 1}, 0, [], [])
+  @Input() album: Album;
   @Output() deleteAlbum = new EventEmitter();
   userId: number = 0
   token: string = ""

@@ -20,7 +20,7 @@ export class AlbumListComponent implements OnInit {
   
   userId: number
   token: string
-  albumes: Array<Album>;
+  albumes: Array<Album>
   mostrarAlbumes: Array<Album>
   albumSeleccionado: Album
   indiceSeleccionado: number
@@ -46,6 +46,7 @@ export class AlbumListComponent implements OnInit {
       }
     },
     error => {
+      console.log(error)
       if(error.statusText === "UNAUTHORIZED"){
         this.showWarning("Su sesión ha caducado, por favor vuelva a iniciar sesión.")
       }
