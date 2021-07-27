@@ -12,9 +12,9 @@ import { AlbumService } from '../album.service';
 })
 export class AlbumEditComponent implements OnInit {
 
-  userId: number = 0;
-  token: string = "";
-  albumId: number = 0;
+  userId: number;
+  token: string;
+  albumId: number;
   albumForm!: FormGroup;
   medios:Array<Medio> = [
     {

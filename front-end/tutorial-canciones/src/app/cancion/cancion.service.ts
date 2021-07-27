@@ -23,4 +23,16 @@ export class CancionService {
     return this.http.get<Cancion[]>(`${this.backUrl}/canciones`)
   }
 
+  crearCancion(cancion: Cancion):Observable<Cancion>{
+    return this.http.post<Cancion>(`${this.backUrl}/canciones`, cancion)
+  }
+
+  getCancion(cancionId: number): Observable<Cancion>{
+    return this.http.get<Cancion>(`${this.backUrl}/cancion/${cancionId}`)
+  }
+
+  editarCancion(cancion: Cancion, cancionId: number):Observable<Cancion>{
+    return this.http.put<Cancion>(`${this.backUrl}/cancion/${cancionId}`, cancion)
+  }
+
 }

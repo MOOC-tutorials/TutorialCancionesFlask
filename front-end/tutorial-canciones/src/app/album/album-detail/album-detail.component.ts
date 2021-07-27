@@ -26,7 +26,6 @@ export class AlbumDetailComponent implements OnInit {
   }
 
   goToEdit(){
-    console.log("object")
     this.routerPath.navigate([`/albumes/edit/${this.album.id}/${this.userId}/${this.token}`])
   }
   

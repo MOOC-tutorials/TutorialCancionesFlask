@@ -5,6 +5,8 @@ import { AlbumListComponent } from './album/album-list/album-list.component';
 import { AlbumCreateComponent } from './album/album-create/album-create.component';
 import { AlbumEditComponent } from './album/album-edit/album-edit.component';
 import { CancionListComponent } from './cancion/cancion-list/cancion-list.component';
+import { CancionCreateComponent } from './cancion/cancion-create/cancion-create.component';
+import { CancionEditComponent } from './cancion/cancion-edit/cancion-edit.component';
 
 const routes: Routes = [
   {
@@ -27,6 +29,14 @@ const routes: Routes = [
   {
     path: 'canciones/:userId/:userToken',
     component: CancionListComponent
+  },
+  {
+    path: 'canciones/create/:userId/:userToken',
+    component: CancionCreateComponent
+  },
+  {
+    path: 'canciones/edit/:cancionId/:userId/:userToken',
+    component: CancionEditComponent
   }
 ];
 

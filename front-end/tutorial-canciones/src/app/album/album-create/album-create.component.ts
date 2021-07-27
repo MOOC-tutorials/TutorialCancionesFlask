@@ -13,9 +13,9 @@ import { Album, Medio } from '../album';
 })
 export class AlbumCreateComponent implements OnInit {
 
-  userId: number = 0
-  token: string = ""
-  albumForm = <FormGroup>this.formBuilder.group({});
+  userId: number
+  token: string
+  albumForm: FormGroup
   medios:Array<Medio> = [
     {
       llave: "DISCO",
@@ -74,7 +74,6 @@ export class AlbumCreateComponent implements OnInit {
   }
 
   createAlbum(newAlbum: Album){
-    console.log(newAlbum)
     this.albumForm.get('anio')?.setValue(parseInt(this.albumForm.get('anio')?.value))
     this.albumService.crearAlbum(this.userId, this.token, newAlbum)
     .subscribe(album => {

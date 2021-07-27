@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Cancion } from '../cancion';
 
 @Component({
@@ -16,7 +16,8 @@ export class CancionDetailComponent implements OnInit {
   token: string;
 
   constructor(
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private routerPath: Router
   ) { }
 
   ngOnInit() {
@@ -30,6 +31,7 @@ export class CancionDetailComponent implements OnInit {
   }
 
   goToEdit(){
+    this.routerPath.navigate([`/canciones/edit/${this.cancion.id}/${this.userId}/${this.token}`])
   }
 
 }
