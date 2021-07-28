@@ -47,7 +47,7 @@ class VistaSignIn(Resource):
         token_de_acceso = create_access_token(identity = request.json["nombre"])
         db.session.add(nuevo_usuario)
         db.session.commit()
-        return {"mensaje":"usuario creado exitosamente", "token de acceso":token_de_acceso}
+        return {"mensaje":"usuario creado exitosamente", "token":token_de_acceso, "id": nuevo_usuario.id}
 
 
     def put(self, id_usuario):

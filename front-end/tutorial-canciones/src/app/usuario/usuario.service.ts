@@ -14,4 +14,8 @@ export class UsuarioService {
     userLogIn(nombre: string, contrasena: string):Observable<any>{
         return this.http.post<any>(`${this.backUrl}/logIn`, {"nombre": nombre, "contrasena": contrasena });
     }
+
+    userSignUp(nombre: string, contrasena: string): Observable<any>{
+        return this.http.post<any>(`${this.backUrl}/signin`, {"nombre": nombre, "contrasena": contrasena})
+    }
 }

@@ -3,9 +3,9 @@
   <div class="row">
     <div class="col-12 text-center mb-2" >
       <label class="fs-4 fw-bold">Álbum: {{album?.titulo}} ({{album?.anio}})</label>
-      <button type="button" class="btn btn-outline-success ms-3 me-2" (click)="goToEdit()" title="Editar álbum"><i class="bi bi-pencil-square"></i></button>
-      <button type="button" class="btn btn-outline-info me-1 me-2" (click)="goToJoinCancion()" title="Agregar canción" ><i class="bi bi-plus" ></i><i class="bi bi-music-note"></i></button>
-      <button type="button" class="btn btn-outline-danger me-1" (click)="eliminarAlbum()" title="Eliminar álbum"><i class="bi bi-trash-fill"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-outline-success ms-3 me-2" (click)="goToEdit()" title="Editar álbum"><i class="bi bi-pencil-square"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-outline-info me-1 me-2" (click)="goToJoinCancion()" title="Agregar canción" ><i class="bi bi-plus" ></i><i class="bi bi-music-note"></i></button>
+      <button *ngIf="album" type="button" class="btn btn-outline-danger me-1" (click)="eliminarAlbum()" title="Eliminar álbum"><i class="bi bi-trash-fill"></i></button>
     </div>
   </div>
 

@@ -30,8 +30,11 @@
             <input #contrasena type="password" class="form-control" placeholder="*********">
           </div>
         </div>
-        <div class="col-12 text-center">
+        <div class="col-12 text-center mt-3">
           <button (click)="onLogInUsuario(usuario.value, contrasena.value)" type="button" class="btn btn-primary col-8">Ingresar</button>
+        </div>
+        <div class="col-12 text-center mt-2">
+          <p>¿No tienes cuenta? <a href="/signup">Registrate</a></p>
         </div>
       </div>
     </div>
