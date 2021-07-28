@@ -44,10 +44,10 @@ class VistaSignIn(Resource):
     
     def post(self):
         nuevo_usuario = Usuario(nombre=request.json["nombre"], contrasena=request.json["contrasena"])
-        token_de_acceso = create_access_token(identity = request.json["nombre"])
         db.session.add(nuevo_usuario)
         db.session.commit()
-        return {"mensaje":"usuario creado exitosamente", "token":token_de_acceso, "id": nuevo_usuario.id}
+        token_de_acceso = create_access_token(identity = nuevo_usuario.id)
+        return {"mensaje":"usuario creado exitosamente", "token":token_de_acceso}
 
 
     def put(self, id_usuario):
@@ -70,8 +70,8 @@ class VistaLogIn(Resource):
         if usuario is None:
             return "El usuario no existe", 404
         else:
-            token_de_acceso = create_access_token(identity = usuario.nombre)
-            return {"mensaje":"Acceso consedido", "usuario": {"nombre":usuario.nombre, "id": usuario.id}, "token": token_de_acceso}
+            token_de_acceso = create_access_token(identity = usuario.id)
+            return {"mensaje":"Inicio de sesión exitoso", "token": token_de_acceso}
 
 class VistaAlbumsUsuario(Resource):
 

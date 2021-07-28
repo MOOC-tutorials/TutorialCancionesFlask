@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/f
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { UsuarioService } from '../usuario.service';
+import { JwtHelperService } from "@auth0/angular-jwt";
+
+
 
 @Component({
   selector: 'app-usuario-signup',
@@ -11,6 +14,7 @@ import { UsuarioService } from '../usuario.service';
 })
 export class UsuarioSignupComponent implements OnInit {
 
+  helper = new JwtHelperService();
   usuarioForm: FormGroup;
 
   constructor(
@@ -31,11 +35,12 @@ export class UsuarioSignupComponent implements OnInit {
   registrarUsuario(){  
     this.usuarioService.userSignUp(this.usuarioForm.get('nombre')?.value, this.usuarioForm.get('password')?.value)
     .subscribe(res => {
-      this.router.navigate([`/albumes/${res.id}/${res.token}`])
+      const decodedToken = this.helper.decodeToken(res.token);
+      this.router.navigate([`/albumes/${decodedToken.sub}/${res.token}`])
       this.showSuccess()
     },
     error => {
-      this.showError(`Ha ocurrido un erro: ${error.message}`)
+      this.showError(`Ha ocurrido un error: ${error.message}`)
     })
   }
 

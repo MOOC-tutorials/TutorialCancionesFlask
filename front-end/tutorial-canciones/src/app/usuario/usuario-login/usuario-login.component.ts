@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Usuario } from '../usuario';
+import { JwtHelperService } from "@auth0/angular-jwt";
 import { UsuarioService } from '../usuario.service';
 import { Router } from '@angular/router';
 
@@ -9,6 +10,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./usuario-login.component.css']
 })
 export class UsuarioLoginComponent implements OnInit {
+
+  helper = new JwtHelperService();
 
   constructor(
     private usuarioService: UsuarioService,
@@ -25,7 +28,8 @@ export class UsuarioLoginComponent implements OnInit {
     
     this.usuarioService.userLogIn(nombre, contrasena)
     .subscribe(res => {
-      this.router.navigate([`/albumes/${res.usuario.id}/${res.token}`])
+      const decodedToken = this.helper.decodeToken(res.token);
+      this.router.navigate([`/albumes/${decodedToken.sub}/${res.token}`])
     },
     error => {
       this.error=true
