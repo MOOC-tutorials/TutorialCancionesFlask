@@ -3,8 +3,8 @@
   <div class="row">
     <div class="col-12 text-center mb-2" >
       <label class="fs-4 fw-bold">Canción: {{cancion?.titulo}}</label>
-      <button *ngIf="cancion" type="button" class="btn btn-outline-success ms-3 me-2" (click)="goToEdit()"><i class="bi bi-pencil-square"></i></button>
-      <button *ngIf="cancion" type="button" class="btn btn-outline-danger me-1" (click)="eliminarCancion()"><i class="bi bi-trash-fill"></i></button>
+      <button *ngIf="cancion" type="button" class="btn btn-outline-success ms-3 me-2" (click)="goToEdit()" title="Editar canción"><i class="bi bi-pencil-square"></i></button>
+      <button *ngIf="cancion" type="button" class="btn btn-outline-danger me-1" (click)="eliminarCancion()" title="Eliminar canción"><i class="bi bi-trash-fill"></i></button>
     </div>
   </div>
 
