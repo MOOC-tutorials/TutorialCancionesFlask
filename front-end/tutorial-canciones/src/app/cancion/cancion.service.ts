@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Cancion } from './cancion';
+import { Album } from '../album/album';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class CancionService {
 
   getCanciones(): Observable<Cancion[]>{
     return this.http.get<Cancion[]>(`${this.backUrl}/canciones`)
+  }
+
+  getAlbumesCancion(cancionId: number): Observable<Album[]>{
+    return this.http.get<Album[]>(`${this.backUrl}/cancion/${cancionId}/albumes`)
   }
 
   crearCancion(cancion: Cancion):Observable<Cancion>{

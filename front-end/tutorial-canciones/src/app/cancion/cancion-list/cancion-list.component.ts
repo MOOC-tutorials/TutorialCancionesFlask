@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Cancion } from '../cancion';
-import { AlbumService } from 'src/app/album/album.service';
 import { CancionService } from '../cancion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -14,7 +13,6 @@ export class CancionListComponent implements OnInit {
 
   constructor(
     private cancionService: CancionService,
-    private albumService: AlbumService,
     private routerPath: Router,
     private router: ActivatedRoute,
     private toastr: ToastrService
@@ -50,14 +48,14 @@ export class CancionListComponent implements OnInit {
   onSelect(cancion: Cancion, indice: number){
     this.indiceSeleccionado = indice
     this.cancionSeleccionada = cancion
-    let albumes: Array<any> = []
-    cancion.albumes.map( c => {
-      this.albumService.getAlbum(c)
-      .subscribe(album => {
-        albumes.push(album)
-      })
+    this.cancionService.getAlbumesCancion(cancion.id)
+    .subscribe(albumes => {
+      this.cancionSeleccionada.albumes = albumes
+    },
+    error => {
+      this.showError(`Ha ocurrido un error: ${error.message}`)
     })
-    this.cancionSeleccionada.albumes = albumes
+    
   }
 
   buscarCancion(busqueda: string){

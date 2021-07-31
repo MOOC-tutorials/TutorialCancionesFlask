@@ -40,6 +40,11 @@ class VistaCancion(Resource):
         db.session.commit()
         return '',204
 
+class VistaAlbumesCanciones(Resource):
+    def get(self, id_cancion):
+        cancion = Cancion.query.get_or_404(id_cancion)
+        return [album_schema.dump(al) for al in cancion.albumes]
+
 class VistaSignIn(Resource):
     
     def post(self):
